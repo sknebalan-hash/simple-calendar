@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* Base styles for the app */
+body {
+  @apply bg-gray-50 text-gray-900 min-h-screen;
+}
+
+#root {
+  @apply min-h-screen;
+}
+
+/* Calendar styling overrides */
+.rbc-calendar {
+  @apply bg-white;
+}
+
+.rbc-header {
+  @apply bg-gray-50 py-2 font-medium text-gray-700 text-sm border-b border-gray-200;
+}
+
+.rbc-month-view {
+  @apply border border-gray-200 rounded-b-lg;
+}
+
+.rbc-month-row {
+  @apply border-b border-gray-100;
+}
+
+.rbc-day-bg {
+  @apply border-r border-gray-100;
+}
+
+.rbc-off-range-bg {
+  @apply bg-gray-50;
+}
+
+.rbc-today {
+  @apply bg-blue-50;
+}
+
+.rbc-event {
+  @apply text-xs px-1 py-0.5;
+}
+
+.rbc-event:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-1;
+}
+
+.rbc-show-more {
+  @apply text-xs text-blue-600 font-medium;
+}
+
+.rbc-date-cell {
+  @apply text-right px-2 py-1;
+}
+
+.rbc-date-cell > a {
+  @apply text-sm text-gray-600;
+}
+
+.rbc-now > a {
+  @apply text-blue-600 font-semibold;
+}
+
+/* Week/Day view styles */
+.rbc-time-view {
+  @apply border border-gray-200 rounded-b-lg;
+}
+
+.rbc-time-header {
+  @apply border-b border-gray-200;
+}
+
+.rbc-time-content {
+  @apply border-t border-gray-100;
+}
+
+.rbc-timeslot-group {
+  @apply border-b border-gray-50;
+}
+
+.rbc-time-slot {
+  @apply text-xs text-gray-500;
+}
+
+.rbc-current-time-indicator {
+  @apply bg-red-500;
+}
