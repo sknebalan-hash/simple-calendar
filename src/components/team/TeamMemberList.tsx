@@ -9,13 +9,13 @@ export function TeamMemberList() {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const handleAdd = (name: string) => {
-    addMember(name);
+  const handleAdd = (name: string, color: string) => {
+    addMember(name, color);
     setIsAdding(false);
   };
 
-  const handleUpdate = (id: string, name: string) => {
-    updateMember(id, name);
+  const handleUpdate = (id: string, name: string, color: string) => {
+    updateMember(id, name, color);
     setEditingId(null);
   };
 
@@ -57,7 +57,8 @@ export function TeamMemberList() {
               {editingId === member.id ? (
                 <TeamMemberForm
                   initialName={member.name}
-                  onSubmit={(name) => handleUpdate(member.id, name)}
+                  initialColor={member.color}
+                  onSubmit={(name, color) => handleUpdate(member.id, name, color)}
                   onCancel={() => setEditingId(null)}
                   submitLabel="Save"
                 />

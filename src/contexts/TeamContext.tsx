@@ -2,11 +2,10 @@ import { createContext, useContext, useReducer, useEffect, type ReactNode } from
 import type { TeamMember } from '../types';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { generateId } from '../utils/id';
-import { getNextColor } from '../utils/colors';
 
 type TeamAction =
-  | { type: 'ADD_MEMBER'; payload: Omit<TeamMember, 'id' | 'createdAt' | 'color'> & { color?: string } }
-  | { type: 'UPDATE_MEMBER'; payload: { id: string; name: string } }
+  | { type: 'ADD_MEMBER'; payload: Omit<TeamMember, 'id' | 'createdAt'> }
+  | { type: 'UPDATE_MEMBER'; payload: { id: string; name: string; color: string } }
   | { type: 'DELETE_MEMBER'; payload: string }
   | { type: 'LOAD_MEMBERS'; payload: TeamMember[] };
 
@@ -15,8 +14,8 @@ interface TeamState {
 }
 
 interface TeamContextType extends TeamState {
-  addMember: (name: string) => void;
-  updateMember: (id: string, name: string) => void;
+  addMember: (name: string, color: string) => void;
+  updateMember: (id: string, name: string, color: string) => void;
   deleteMember: (id: string) => void;
   getMemberById: (id: string | null) => TeamMember | undefined;
 }
@@ -29,7 +28,7 @@ const teamReducer = (state: TeamState, action: TeamAction): TeamState => {
       const newMember: TeamMember = {
         id: generateId(),
         name: action.payload.name,
-        color: action.payload.color ?? getNextColor(),
+        color: action.payload.color,
         createdAt: new Date().toISOString(),
       };
       return { ...state, members: [...state.members, newMember] };
@@ -38,7 +37,9 @@ const teamReducer = (state: TeamState, action: TeamAction): TeamState => {
       return {
         ...state,
         members: state.members.map((m) =>
-          m.id === action.payload.id ? { ...m, name: action.payload.name } : m
+          m.id === action.payload.id
+            ? { ...m, name: action.payload.name, color: action.payload.color }
+            : m
         ),
       };
     case 'DELETE_MEMBER':
@@ -63,12 +64,12 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     setStoredMembers(state.members);
   }, [state.members, setStoredMembers]);
 
-  const addMember = (name: string) => {
-    dispatch({ type: 'ADD_MEMBER', payload: { name } });
+  const addMember = (name: string, color: string) => {
+    dispatch({ type: 'ADD_MEMBER', payload: { name, color } });
   };
 
-  const updateMember = (id: string, name: string) => {
-    dispatch({ type: 'UPDATE_MEMBER', payload: { id, name } });
+  const updateMember = (id: string, name: string, color: string) => {
+    dispatch({ type: 'UPDATE_MEMBER', payload: { id, name, color } });
   };
 
   const deleteMember = (id: string) => {
